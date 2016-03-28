@@ -1,0 +1,19 @@
+#Ignore output folder
+output/
+
+#Ignore the contents of unmodified folder
+dist/unmodified/*
+
+#Ignore swap files
+*.swp
+*~
+*.DS_Store
+
+#Ignore compiled build
+src/back-end/target/*
+src/front-end/target/*
+src/shared/target/*
+
+#Ignore inst.sh and test.sh created after successful build
+inst.sh
+test.sh
