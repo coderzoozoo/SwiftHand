@@ -253,7 +253,7 @@ class InstrumentingMethodVisitor(methodInfo:MethodInfo, api: Int, mv: MethodVisi
         if (additionalHandlerLabel == null){
           additionalHandlerLabel = new Label()
           val body = instructionsForHandler(currentBasicBlock)
-          handlersToInstall += (additionalHandlerLabel, new IntentionalHandler(body))
+          handlersToInstall = handlersToInstall.enqueue(additionalHandlerLabel, new IntentionalHandler(body))
         }
 
         mv.visitLabel(startLabel)
@@ -340,7 +340,7 @@ class InstrumentingMethodVisitor(methodInfo:MethodInfo, api: Int, mv: MethodVisi
         mv.visitInsn(Opcode.NOP.encode())
 
         if(!handlerAdded){
-          handlersToInstall = handlersToInstall + Pair(labelOfHandlerEntry, new InstrumentHandler)
+          handlersToInstall = handlersToInstall.enqueue(Pair(labelOfHandlerEntry, new InstrumentHandler))
           handlerAdded = true
           handlerLabel = labelOfHandlerEntry
         }

@@ -2,7 +2,7 @@ package edu.berkeley.wtchoi.instrument;
 
 import com.google.gson.Gson;
 import edu.berkeley.wtchoi.instrument.ApkProcessor.ApkProcessor;
-import sun.security.tools.JarSigner;
+import sun.security.tools.jarsigner.Main;
 import java.security.KeyStore;
 
 import java.io.File;
@@ -128,7 +128,7 @@ public class Instrument {
             if(!keystoreFile.exists()) throw new RuntimeException("key store file does not exists!");
 
             String[] jsArgs = {"-sigalg", "SHA1withRSA", "-digestalg", "SHA1", "-keystore", keystoreFileName, "-storepass", keystorePassword, "-keypass", keyPassword, outputApkFileName, keyAlias};
-            JarSigner jarSigner = new JarSigner();
+            Main jarSigner = new Main();
             jarSigner.run(jsArgs);
 
             if (flagVerifyPrint){

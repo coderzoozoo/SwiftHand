@@ -1,10 +1,10 @@
 #!/bin/sh
 
 # WARNING: Please assign proper contents and uncomment following four export statements.
-export ADK_ROOT="/Users/wtchoi/Library/Android/sdk"
-export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home"
+export ADK_ROOT="/Users/ravish/Android/adt-bundle-mac-x86_64-20130522/sdk"
+export JAVA_HOME="$(/usr/libexec/java_home)"
 export GUAVA_VERSION="17.0"
-export DX_VERSION="21.1.2"
+export DX_VERSION="23.0.2"
 
 
 

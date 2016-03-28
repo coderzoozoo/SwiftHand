@@ -100,7 +100,7 @@ class MethodInfo(_access:Int, _name:String, _desc:String, _class:ClassInfo, _app
         var r:Int = idx
         var seq:Queue[(Int, Type)] = Queue.empty[(Int, Type)]
         actualParameterTypes.foreach(ty => {
-          seq += (r, ty)
+          seq = seq.enqueue(r, ty)
           r += ty.size
         })
         return seq.toSeq

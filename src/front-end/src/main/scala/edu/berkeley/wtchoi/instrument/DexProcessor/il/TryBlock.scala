@@ -56,7 +56,7 @@ class TryBlock(_id:Int, _begin:Int, _end:Int){
     }
   }
 
-  def addHandler(ty:Option[String], h:BasicBlock) = mHandlers += (ty, h)
+  def addHandler(ty:Option[String], h:BasicBlock) = mHandlers = mHandlers.enqueue(ty, h)
 
   def foreachBB(f:(BasicBlock) => Unit) = mContainedBBs.foreach(f)
   def foreachHandler(f:((Option[String], BasicBlock)) => Unit)  = mHandlers.foreach(f)

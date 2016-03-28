@@ -183,7 +183,7 @@ class BlockState(m: SingletonStateManager, b: CFGBuilderImp) extends SingletonSt
       }
     }
 
-    builder.mInstructions += inst
+    builder.mInstructions = builder.mInstructions.enqueue(inst)
     builder.setOffset(newOffset)
     return next
   }
@@ -226,7 +226,7 @@ class EscapeState(m: SingletonStateManager, b: CFGBuilderImp) extends SingletonS
         //{Debug.notImplemented(this);()}
     }
 
-    builder.mInstructions += inst
+    builder.mInstructions = builder.mInstructions.enqueue(inst)
     builder.setOffset(newOffset)
     return next
   }
@@ -257,7 +257,7 @@ class AfterInvokeState(m:SingletonStateManager, b:CFGBuilderImp) extends Singlet
     if(inst.opcode.isMOVE_RESULT){
       builder.connectFlow(builder.mPrevOffset, builder.mCurrentOffset)
       builder.connectFlow(builder.mCurrentOffset, newOffset)
-      builder.mInstructions += inst
+      builder.mInstructions = builder.mInstructions.enqueue(inst)
       builder.setOffset(newOffset)
       return manager.getBlockState()
     }

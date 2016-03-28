@@ -59,9 +59,9 @@ abstract class MethodSpecDSL extends MethodSpecification with DSL{
 
   override protected final def addToCode(c:Command) = {
     mode match{
-      case EntryMode => entryCodeBlock += c
-      case ExitMode => exitCodeBlock += c
-      case HandlerMode => handlerCodeBlock += c
+      case EntryMode => entryCodeBlock = entryCodeBlock.enqueue(c)
+      case ExitMode => exitCodeBlock = exitCodeBlock.enqueue(c)
+      case HandlerMode => handlerCodeBlock = handlerCodeBlock.enqueue(c)
     }
   }
 

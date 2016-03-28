@@ -74,7 +74,7 @@ class CmdListCompiler(context:CompilingContext){
         ac.compile(args)
         var methodDescriptor = ac.getDescriptor()
 
-        val seq = ac.getInstructions() + MethodInsn(Opcode.INVOKE_STATIC, cName, mName, returnTy.descriptor() + flatten(methodDescriptor), ac.getArgumentRegisterArray())
+        val seq = ac.getInstructions().enqueue(MethodInsn(Opcode.INVOKE_STATIC, cName, mName, returnTy.descriptor() + flatten(methodDescriptor), ac.getArgumentRegisterArray()))
         seq ++ restoreVictims(ac.getVictims())
       }
 
@@ -89,7 +89,7 @@ class CmdListCompiler(context:CompilingContext){
         var methodDescriptor = ac.getDescriptor()
         if(methodDescriptor.length > 0) methodDescriptor = methodDescriptor.tail //removing this type from descriptor
 
-        val seq =  ac.getInstructions() + MethodInsn(Opcode.INVOKE_VIRTUAL, cName, mName, returnTy.descriptor() + flatten(methodDescriptor), ac.getArgumentRegisterArray())
+        val seq =  ac.getInstructions().enqueue(MethodInsn(Opcode.INVOKE_VIRTUAL, cName, mName, returnTy.descriptor() + flatten(methodDescriptor), ac.getArgumentRegisterArray()))
         seq ++ restoreVictims(ac.getVictims())
       }
 
@@ -131,9 +131,9 @@ class CmdListCompiler(context:CompilingContext){
     victims.foreach(x => {
       val (origin, target, ty) = x
       if (ty.isNumericType())
-        queue += VarInsn(Opcode.MOVE_FROM16, origin, target)
+        queue = queue.enqueue(VarInsn(Opcode.MOVE_FROM16, origin, target))
       else if (ty.isObjectType())
-        queue += VarInsn(Opcode.MOVE_OBJECT_FROM16, origin, target)
+        queue = queue.enqueue(VarInsn(Opcode.MOVE_OBJECT_FROM16, origin, target))
       else{
         throw new RuntimeException("Cannot restore victim register")
       }

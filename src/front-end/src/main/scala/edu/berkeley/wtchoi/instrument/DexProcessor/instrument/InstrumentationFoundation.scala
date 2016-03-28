@@ -74,7 +74,12 @@ case class TyClass(desc:String) extends Ty{
   def isObjectTy:Boolean = true
 }
 
-case object TyException extends TyClass("Ljava/lang/Exception;")
+//case object TyException extends TyClass("Ljava/lang/Exception;")
+case object TyException extends Ty{
+  def descriptor():String = "Ljava/lang/Exception;"
+  def isObjectTy:Boolean = true
+}
+
 
 
 

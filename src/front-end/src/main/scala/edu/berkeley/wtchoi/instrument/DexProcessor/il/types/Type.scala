@@ -59,7 +59,7 @@ object Type{
     var remainder:String = desc
     while(remainder.length != 0){
       val (ty, _remainder) = getTypeToken(remainder)
-      typeSequence += ty
+      typeSequence = typeSequence.enqueue(ty)
       remainder = _remainder
     }
     return typeSequence

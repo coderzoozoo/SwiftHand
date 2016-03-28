@@ -17,3 +17,4 @@ src/shared/target/*
 #Ignore inst.sh and test.sh created after successful build
 inst.sh
 test.sh
+

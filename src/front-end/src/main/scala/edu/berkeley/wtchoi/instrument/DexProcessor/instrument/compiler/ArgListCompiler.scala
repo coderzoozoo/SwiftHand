@@ -51,11 +51,11 @@ class ArgListCompiler( _availableRegisters:Set[IL.Register],
     //TODO: current protection mechanism is not good enough
     exp match {
       case ExpVar(x) if env(x) < 16 =>{
-        argumentRegSeq += env(x)
+        argumentRegSeq =argumentRegSeq.enqueue(env(x))
         protectedSet += env(x)
       }
       case ExpThis() if context.getThisRegister().get < 16 =>{
-        argumentRegSeq += context.getThisRegister().get
+        argumentRegSeq = argumentRegSeq.enqueue(context.getThisRegister().get)
         protectedSet += context.getThisRegister().get
       }
       case _ =>{
@@ -67,10 +67,10 @@ class ArgListCompiler( _availableRegisters:Set[IL.Register],
           val (victim, victimType) = findVictim(protectedSet)
 
           if (victimType.isNumericType){
-            preparingInstructionSeq += VarInsn(Opcode.MOVE_16, targetReg, victim)
+            preparingInstructionSeq = preparingInstructionSeq.enqueue(VarInsn(Opcode.MOVE_16, targetReg, victim))
           }
           else if (victimType.isObjectType){
-            preparingInstructionSeq += VarInsn(Opcode.MOVE_OBJECT_16, targetReg, victim)
+            preparingInstructionSeq = preparingInstructionSeq.enqueue(VarInsn(Opcode.MOVE_OBJECT_16, targetReg, victim))
           }
           else{
             throw new RuntimeException("Cannot evict victim register")
@@ -84,11 +84,11 @@ class ArgListCompiler( _availableRegisters:Set[IL.Register],
         else{
           protectedSet += targetReg
         }
-        preparingInstructionSeq += ExpressionCompiler.compileLoadExpression(env, tyEnv, exp, targetReg, context)
-        argumentRegSeq += targetReg
+        preparingInstructionSeq = preparingInstructionSeq.enqueue(ExpressionCompiler.compileLoadExpression(env, tyEnv, exp, targetReg, context))
+        argumentRegSeq = argumentRegSeq.enqueue(targetReg)
       }
     }
-    argsDescriptor += exp.ty(tyEnv).descriptor()
+    argsDescriptor = argsDescriptor.enqueue(exp.ty(tyEnv).descriptor())
   }
 
   private def findVictim(protectedSet: Set[Register]):(Register, RegisterType) = {

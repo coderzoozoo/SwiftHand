@@ -115,7 +115,7 @@ class CFG(_method:MethodInfo){
 
     for (reg <- 0 until upperBound) {
       if (!liveRegs.contains(reg))
-        availRegs += reg
+        availRegs = availRegs.enqueue(reg)
     }
 
     return availRegs.toList
